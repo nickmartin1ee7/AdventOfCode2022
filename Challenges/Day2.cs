@@ -15,15 +15,25 @@ public class Day2 : Day<int>
     {
         var split = Part1Content!.Split('\n');
 
-        var totalScore = 0;
+        var guideScore = 0;
+        var winScore = 0;
+        var actualScore = 0;
 
         for (var i = 0; i < split.Length; i++)
         {
-            var p1Choice = split[i][0];
-            totalScore += Game.Solve(p1Choice);
+            var p1Choice = split[i].FirstOrDefault();
+
+            var p2Choice = Game.UseStrategyGuide(p1Choice);
+            guideScore += Game.Play(p1Choice, p2Choice);
+
+            // p2Choice = Game.UseWinningStrategy(p1Choice);
+            // winScore += Game.Play(p1Choice, p2Choice);
+            //
+            // p2Choice = split[i].LastOrDefault();
+            // actualScore += Game.Play(p1Choice, p2Choice);
         }
 
-        return totalScore;
+        return guideScore;
     }
 
     [Benchmark]
@@ -34,18 +44,55 @@ public class Day2 : Day<int>
 
     private static class Game
     {
-        public static int Play(char player1, char player2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static int Solve(char player1)
+        public static char UseWinningStrategy(char player1)
         {
             return player1 switch
             {
-                Player1.Rock => 8,
-                Player1.Paper => 1,
-                Player1.Scissors => 6,
+                Player1.Rock => Player2.Paper,
+                Player1.Paper => Player2.Scissors,
+                Player1.Scissors => Player2.Rock,
+                _ => default
+            };
+        }
+
+        public static char UseStrategyGuide(char player1)
+        {
+            return player1 switch
+            {
+                Player1.Rock => Player2.Paper,
+                Player1.Paper => Player2.Rock,
+                Player1.Scissors => Player2.Scissors,
+                _ => default
+            };
+        }
+
+        public static int Play(char player1, char player2)
+        {
+            const int loss = 0;
+            const int tie = 3;
+            const int win = 6;
+
+            const int rock = 1;
+            const int paper = 2;
+            const int scissors = 3;
+
+            return (player1, player2) switch
+            {
+                // Loss
+                (Player1.Paper, Player2.Rock) => rock + loss,
+                (Player1.Scissors, Player2.Paper) => paper + loss,
+                (Player1.Rock, Player2.Scissors) => scissors + loss,
+
+                // Tie
+                (Player1.Rock, Player1.Rock) => rock + tie,
+                (Player1.Paper, Player2.Paper) => paper + tie,
+                (Player1.Scissors, Player2.Scissors) => scissors + tie,
+
+                // Win
+                (Player1.Scissors, Player2.Rock) => rock + win,
+                (Player1.Rock, Player2.Paper) => paper + win,
+                (Player1.Paper, Player2.Scissors) => scissors + win,
+
                 _ => 0
             };
         }

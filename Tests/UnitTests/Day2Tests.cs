@@ -19,6 +19,7 @@ public class Day2Tests
     {
         var result = _day!.Part1();
         Assert.AreEqual(-1, result);
+        // 11734 < X < 15436
     }
 
     [Test]
