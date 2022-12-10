@@ -13,7 +13,7 @@ public class Day1 : Day<int>
     [Benchmark]
     public override int Part1()
     {
-        var p1Split = Part1Content.Split('\n');
+        var p1Split = Part1Content!.Split('\n');
 
         var maxElfCalories = 0;
         var elfTotalCalories = 0;
@@ -38,7 +38,7 @@ public class Day1 : Day<int>
     [Benchmark]
     public override int Part2()
     {
-        var p2Split = Part2Content.Split('\n');
+        var p2Split = Part2Content!.Split('\n');
 
         var sortedElfCalories = new SortedSet<int>();
         var elfTotalCalories = 0;
