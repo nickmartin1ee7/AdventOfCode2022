@@ -1,4 +1,5 @@
 using Challenges;
+using Challenges.Day1;
 using NUnit.Framework;
 
 namespace Tests.UnitTests;

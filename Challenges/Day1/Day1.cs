@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace Challenges;
+namespace Challenges.Day1;
 
 [MemoryDiagnoser]
 public class Day1 : Day<int>
